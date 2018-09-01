@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+<title>{{ gymnast.name }} - Score for Score</title>
+{% block content %}
+<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
+
+	<h1>{{ gymnast.name }}</h1>
+	<p>{{ gymnast.country }}</p>
+	{% if gymnast.summary %}
+		<p>{{ gymnast.summary }}</p> 
+	{% endif %}
+	</br></br>
+	<!---Score table-->
+	<table class="sortable scoretable"> 
+	<tr class="table_header">
+		<th>Meet</th>
+		<th>Start Date</th>
+		<th>Meet Event</th>
+		<th>VT</th>
+		<th>VT2</th>
+		<th>UB</th>
+		<th>BB</th>
+		<th>FX</th>
+		<th>AA</th>
+	</tr>
+	{% for info in to_display %}
+	<tr>
+		<td><a href="{{ info.0.get_absolute_url }}">{{ info.0.name }}</a></td>
+		<td>{{ info.0.start_date|date:"m/d/Y" }}</td>
+		<td>{{ info.1 }}</td>
+		<td class="score">{{ info.2|floatformat:3 }}</td>
+		<td class="score">{{ info.3|floatformat:3 }}</td>
+		<td class="score">{{ info.4|floatformat:3 }}</td>
+		<td class="score">{{ info.5|floatformat:3 }}</td>
+		<td class="score">{{ info.6|floatformat:3 }}</td>
+		<td class="score">{{ info.7|floatformat:3 }}</td>
+	</tr>
+		{% endfor %}
+	</table>
+	<!--- Pre-sort the table by gymnast name-->
+	<script>
+		window.onload = function() {
+			(document.getElementsByTagName( 'th' )[1]).click();
+		};
+	</script>
+{% endblock %}

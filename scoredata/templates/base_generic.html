@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+	<!-- Add additional CSS in static file -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+	<div class="header" id = "mainheader">
+		</br>
+		<!--- <a href="{% url 'index' %}"><img src="{% static 'images/figure.jpg' %}" width=100></a> -->
+		<a href="{% url 'index' %}"><h1>Score for Score</h1></a>
+		<!-- Add navigational bar -->
+		<div class="navbar" id = "topnavbar">
+				<a href="{% url 'about_us' %}">About Us</a>
+				<a href="{% url 'posts' %}">Blog</a>
+				<a href="{% url 'score_selector' %}">Score Selector</a>
+		        <a href="{% url 'team_tester' %}">Team Tester</a>
+				<a href="{% url 'meets' %}">Meets</a>
+		</div>
+	</div>
+
+</head>
+
+
+<body>
+	<!-- Add a script to format numbers -->
+
+	<div class="main">
+			{% block content %}{% endblock %}
+
+			<!-- Add code to show next, previous, etc. for paginated list views -->
+			{% block pagination %}
+
+				{% if is_paginated %}
+					<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center pagination-sm">
+									{% if page_obj.has_previous %}
+										<!-- If it isn't a search result display, don't append the search query
+												 to the URL. -->
+										{% if not search %}
+										<li class="page-item">
+												<a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+										</li>
+										{% else %}
+										<!-- Append the searched query to the URL, so that on a search results page,
+												 the pagination don't revert to listing all the listview items. -->
+											<li class="page-item">
+												<a class="page-link" href="{{ request.path }}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+										</li>
+										{% endif %}
+									{% else %}
+									<li class="page-item disabled">
+											<a class="page-link" href="#" tabindex="-1">Previous</a>
+									</li>
+									{% endif %} 
+									{% for object in page_obj.paginator.page_range %}
+											<li class="page-item"><a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+									{% endfor %} 
+									{% if page_obj.has_next %}
+										{% if not search %}
+										<li class="page-item">
+												<a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>
+										</li>
+										{% else %}
+											<li class="page-item">
+												<a class="page-link" href="{{ request.path }}?{{search}}&page={{ page_obj.next_page_number }}">Next</a>
+										</li>
+										{% endif %}
+									{% else %}
+									<li class="page-item disabled">
+											<a class="page-link" href="#">Next</a>
+									</li>
+									{% endif %}
+							</ul>
+					</nav>
+			{% endif %}
+		{% endblock %} 
+
+	</div>
+
+</body>
+</html>

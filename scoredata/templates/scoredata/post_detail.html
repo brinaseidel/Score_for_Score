@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+<title>{{ post.title}}</title>
+
+{% block content %}
+	<div class="row">
+		<div class="col-sm-10 ">
+			<div class = "blog_title">
+				<h2>{{ post.title }}</h2>
+				<p style="text-align:left;">
+					by <a href="{{ post.author.get_absolute_url }}"> {{ post.author.first_name }}</a>
+					<span style="float:right;">{{ post.date }}</span>
+				</p>
+			</div>
+			<div class = "blog_body">
+				<br/> <br/>
+				{{ post.text|safe|linebreaks }}
+				</br>
+				<p style= "font-size:small;">Tags: {% for tag in post.tag.all %}<a href="{{ tag.get_absolute_url }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+			</div> 
+		</div>
+
+		<div class="col-sm-2">
+			{% if post.related.all.count > 0 %}
+				<h3> Related Posts </h3>
+				{% for related_post in post.related.all %}
+					<a href = "{{ related_post.get_absolute_url }}">{{ related_post }}</a><br/>
+				{% endfor %}
+				</br>
+			{% endif %}
+			<h3>More Posts<br/></h3>
+			{% for tag in tags %}
+				<a href = "{{ tag.0.get_absolute_url }}">{{ tag.0.name }}</a> ({{ tag.1 }}) <br/>
+			{% endfor %}
+	  	</div>
+	</div>
+{% endblock %}
+

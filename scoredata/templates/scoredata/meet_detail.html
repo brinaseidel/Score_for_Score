@@ -1,0 +1,100 @@
+{% extends "base_generic.html" %}
+{% load humanize %}
+{% load static %}
+
+<title>{{ meet.name }} - Score for Score</title>
+
+
+{% block content %}
+<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
+
+  <h1 style="margin:auto;">{{ meet.name }}</h1>
+  <!--- Display start and end date if they are different; otherwise just display the meet date-->
+  {% if meet.start_date != meet.end_date %}
+  	<p>{{ meet.start_date }} to {{ meet.end_date }}</p> 
+  {% else %}
+  	<p>{{ meet.start_date }}</p>
+  {% endif %}
+  </br>
+  
+  <div>
+  		<!--- Create the tables of scores -->
+	  {% for table in to_display %}
+	  	<p> <h5 style="text-align:center;">{{ table.0}}</h5> </p>
+	  	<!--- For all tables except event finals -->
+	  	{% if "Event Final" not in table.0 %}
+		  	<table class="sortable scoretable"> 
+			  	<tr class="table_header">
+				  	<th>Gymnast</th>
+				  	<th>Country</th>
+				  	<th>VT</th>
+				  	<th>VT2</th>
+				  	<th>UB</th>
+				  	<th>BB</th>
+				  	<th>FX</th>
+				  	<th>AA</th>
+				</tr>
+			  	{% for gymnast_score in table.1 %}
+			  		<tr>
+			  			<td class="gymnast"><a href="{{ gymnast_score.0.get_absolute_url }}">{{ gymnast_score.0.name }}</a></td>
+			  			<td class="country">{{ gymnast_score.0.country.iso3c }}</td>
+			  			<td class="score">{{ gymnast_score.1|floatformat:3 }}</td>
+			  			<td class="score">{{ gymnast_score.2|floatformat:3 }}</td>
+			  			<td class="score">{{ gymnast_score.3|floatformat:3 }}</td>
+			  			<td class="score">{{ gymnast_score.4|floatformat:3 }}</td>
+			  			<td class="score">{{ gymnast_score.5|floatformat:3 }}</td>
+			  			<td class="score">{{ gymnast_score.6|floatformat:3 }}</td>
+			  		</tr>
+			  	{% endfor %}
+		  	</table>
+		{% else %}
+			<!--- Vault final table -->
+			{% if table.2 == "VT" %}
+				<table class="sortable scoretable"> 
+				  	<tr class="table_header">
+					  	<th>Gymnast</th>
+					  	<th>Country</th>
+					  	<th>VT1</th>
+					  	<th>VT2</th>
+					  	<th>Avg.</th>
+					</tr>
+				  	{% for gymnast_score in table.1 %}
+				  		<tr>
+				  			<td class="gymnast"><a href="{{ gymnast_score.0.get_absolute_url }}">{{ gymnast_score.0.name }}</a></td>
+				  			<td class="country">{{ gymnast_score.0.country.iso3c }}</td>
+				  			<td class="score">{{ gymnast_score.1|floatformat:3 }}</td>
+				  			<td class="score">{{ gymnast_score.2|floatformat:3 }}</td>
+				  			<td class="score">{{ gymnast_score.3|floatformat:3 }}</td>
+				  		</tr>
+				  	{% endfor %}
+			  	</table>
+		  	{% else %}
+		  		<table class="sortable scoretable"> 
+				  	<tr class="table_header">
+					  	<th>Gymnast</th>
+					  	<th>Country</th>
+					  	<th>{{ table.2 }}</th>
+					</tr>
+				  	{% for gymnast_score in table.1 %}
+				  		<tr>
+				  			<td class="gymnast"><a href="{{ gymnast_score.0.get_absolute_url }}">{{ gymnast_score.0.name }}</a></td>
+				  			<td class="country">{{ gymnast_score.0.country.iso3c }}</td>
+				  			<td class="score">{{ gymnast_score.1|floatformat:3 }}</td>
+				  		</tr>
+				  	{% endfor %}
+			  	</table>
+		  	{% endif %}	
+		{% endif %}
+	  	<!--- Pre-sort the table by gymnast name-->
+	  	<script>
+	  		window.onload = function() {
+	  			(document.getElementsByTagName( 'th' )[0]).click();
+	  			(document.getElementsByTagName( 'th' )[0]).click();
+	  			};
+	  	</script>
+	  	</br>
+	  {% endfor %}
+
+  </div>
+
+{% endblock %}

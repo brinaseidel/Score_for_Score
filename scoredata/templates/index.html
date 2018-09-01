@@ -1,0 +1,59 @@
+{% extends "base_generic.html" %}
+{% load humanize %}
+{% load static %}
+
+<title>Score for Score</title>
+
+{% block javascript %}{% endblock %}
+
+{% block content %}
+
+  <!--- **********************************
+        This section has all the javascript
+        ********************************** -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <!--- Script for autocomplete in the form -->
+  <script type="text/javascript">
+	$(document).ready(function(){
+	  var location_input=$('input[id="autocomplete-search"]');
+	    location_input.autocomplete({
+	      source: "get_search_names",
+	      minLength: 2
+	    });
+	  } );
+
+	  // Keeps same width as box
+	  jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+	      var ul = this.menu.element;
+	      ul.outerWidth(this.element.outerWidth());
+	  }
+  </script>
+
+  <!--- **********************************
+        Website content starts here
+        ********************************** -->
+
+
+  <h2 style="text-align:center">Search <strong>{{ num_scores|intcomma }}</strong> scores for <strong>{{ num_gymnasts|intcomma  }}</strong> gymnasts from <strong>{{ num_meets|intcomma }}</strong> meets around the world. </h2>
+
+
+  <!--- Search bar form -->
+  <div class="form_style">
+  <div class="ui-widget" style="text-align:center">
+	<form method="get">
+		<input type="text" id="autocomplete-search" name="to_search" size="60" class="search" style="margin-left:30px">
+		<input type="submit" class="submit" value="&#9658">
+	</form>
+  </div>
+  </div>
+
+  <!--- Display error message if search was unsuccessful -->
+  {% if result == "Not found. Search again?" %}
+    <p style="text-align:center">{{ result }}</p>
+  {% endif %}
+
+{% endblock %}

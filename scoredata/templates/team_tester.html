@@ -1,0 +1,322 @@
+{% extends "base_generic.html" %}
+{% load humanize %}
+{% load static %}
+
+<title>Team Tester</title>
+
+
+{% block content %}
+
+	<!--- **********************************
+		  This section has some of the javascript
+		  ********************************** -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
+
+
+	<!--- **********************************
+				This section has the HTML for the form
+				********************************** -->
+
+	<h4 style="text-align:center">Use the Team Tester to try out any team ahead of big competitions.</h4>
+	<br/>
+	<!--- Form to query the score selector -->
+	<div class="form_style">
+	<form method="get">
+		{% csrf_token %}
+		Test a team with 
+		<input name="team_size" id="team_size" class="num_input" type="text" size="3" value="{{ team_size }}" >
+		members for a competition where 
+		<input name="scores_up" id="scores_up" class="num_input" type="text" size="3" value="{{ scores_up }}">
+		gymnasts go up and 
+		<input name="scores_count" id="scores_count" class="num_input" type="text" size="3" value="{{ scores_count }}">
+		scores count. <br/><br/>
+		Use each gymnast's
+		<select name="sumstat" ">
+			 <option value="max" {%if sumstat == "max"%} selected {%endif%}>best score</option>
+			 <option value="avg" {%if sumstat == "avg"%} selected {%endif%}>average score</option>
+		</select>
+		from
+		<select name="time">
+			 <option value="year" {%if time == "year"%} selected {%endif%}>this year</option>
+			 <option value="season" {%if time == "season"%} selected {%endif%}>this season</option>
+			 <option value="quad" {%if time == "quad"%} selected {%endif%}>this quad</option>
+		</select>
+		<br/> <br/>
+		<div id="initial_options_error"></div>
+		<button type="button" id = "initial_options_submit" class="submit2">Get Started</button>
+		</br>
+		</br>
+		<div id="select_gymnasts" style="padding-top:30px; padding-bottom:30px;">
+			<!--- Search bar form for gymnasts names --> 
+			<div id="select_gymnasts_search_bars" class="ui-widget" style="text-align:center; padding-bottom:0px">
+				<!--- If the form has been submitted, display the gymnasts to make subbing in and out easy -->
+				{% if gymnast_list %}
+					{% for gymnast in gymnast_list %}
+						<input type="text" id="gymnast_search{{ forloop.counter}}" name="gymnast_search{{ forloop.counter}}" size="60" class="search" style="margin-left:30px" value="{{ gymnast }}">
+						<button type="button" id = "gymnast_search{{ forloop.counter}}_submit" class="submit">+</button>
+						<br/>
+					{% endfor %}
+
+				{% endif %}
+			</div>
+			{% if gymnast_list %}
+				<br/>
+				<input type=submit class="submit2" id="get_scores" value="Get Scores">
+			{% endif %}
+		</div>
+	</form>
+	</div>
+
+
+
+	<!--- **********************************
+		  This section has some more javascript
+		  ********************************** -->
+	<!--- Script to create gymnast search bars -->
+	<script>
+		$("#initial_options_submit").click(function () {
+
+			/* Get relevant form values*/
+			team_size=document.getElementById("team_size").value
+			scores_up=document.getElementById("scores_up").value
+			scores_count=document.getElementById("scores_count").value
+
+			/* Clear old error message if an error message was displayed */
+			element = document.getElementById("search_error")
+			if 	(!!element) {
+				element.parentNode.removeChild(element)
+			}
+
+			/* Validate input */
+			regex=/^[0-9]+$/;
+			if (!team_size.match(regex) || !scores_up.match(regex) || !scores_count.match(regex)) {
+				para = document.createElement("P")
+				para.setAttribute("id", "search_error")
+				t = document.createTextNode("You must provide numbers for the competition format. Try again?")
+				para.appendChild(t)
+				document.getElementById("initial_options_error").appendChild(para)
+			}
+			else if (parseInt(team_size) < parseInt(scores_up) || parseInt(team_size) < parseInt(scores_count) || parseInt(scores_up) < parseInt(scores_count)) {
+				para = document.createElement("P")
+				para.setAttribute("id", "search_error")
+				t = document.createTextNode("Invalid competition format. There can't be more scores than team members competiting.")
+				para.appendChild(t)
+				document.getElementById("initial_options_error").appendChild(para)
+			}
+			/* If input is valid... */
+			else {
+				$('#select_gymnasts_search_bars').empty()
+				for (i = 1; i <= team_size; i++) {
+					search_bar = document.createElement("input")
+					search_bar_idname = "gymnast_search" + i.toString()
+					search_bar.setAttribute("id", search_bar_idname)
+					search_bar.setAttribute("name", search_bar_idname)
+					search_bar.setAttribute("type", "text")
+					search_bar.setAttribute("size", "60")
+					search_bar.setAttribute("class", "search")
+					search_bar.setAttribute("style", "margin-left:30px")
+					search_bar.setAttribute("placeholder", "Add a gymnast...")
+					search_button = document.createElement("button")
+					search_button_idname = search_bar_idname + "_submit"
+					search_button.setAttribute("id", search_button_idname)
+					search_button.setAttribute("name", search_button_idname)
+					search_button.setAttribute("class", "submit")
+					search_button.innerHTML = "+"
+					br = document.createElement("br")
+					document.getElementById("select_gymnasts_search_bars").appendChild(search_bar)
+					document.getElementById("select_gymnasts_search_bars").appendChild(search_button)
+					document.getElementById("select_gymnasts_search_bars").appendChild(br)
+				}
+				if ($('#get_scores').length == 0) {
+					br = document.createElement("br")
+					document.getElementById("select_gymnasts_search_bars").appendChild(br)
+					br = document.createElement("br")
+					document.getElementById("select_gymnasts_search_bars").appendChild(br)
+					get_scores = document.createElement("input")
+					get_scores.setAttribute("id", "get_scores")
+					get_scores.setAttribute("type", "submit")
+					get_scores.setAttribute("class", "submit2")
+					get_scores.setAttribute("value", "Get Scores")
+					$(get_scores).insertAfter(document.getElementById("select_gymnasts_search_bars"))
+				}
+			}
+		})
+	</script>
+
+
+	<!--- Script for autocomplete in the form -->
+	<script type="text/javascript">
+		$('body').on('keyup', '.search', function(event) { 
+			// If this search bar was already filled with a valid gymnast name, unmark it (because it's changing now)
+			if(event.keyCode != 13) {
+				submit_id = event.target.id + "_submit"
+				$("#"+submit_id).html("+")
+			}
+			// Autocomplete the newly entered text
+			var location_input=$(this);
+				location_input.autocomplete({
+					source: "get_gymnast_names",
+					minLength: 2
+				});
+		} );
+		// Keeps same width as the search bar
+		jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+				var ul = this.menu.element;
+				ul.outerWidth(this.element.outerWidth());
+		}
+	</script>
+
+	<!--- Script to allow users to add gymnasts by pressing enter without submitting the whole form -->
+	<script>
+		 // Supresses all behavior on enter for all other elements
+		 $(document).ready(function() {
+				$(window).keydown(function(event){
+					currElem = event.target.id;
+					if(event.keyCode == 13 && !currElem.includes("gymnast_search")) {
+						event.preventDefault();
+						return false;
+					}
+					else if(event.keyCode==13 && currElem.includes("gymnast_search")) {
+						event.preventDefault();
+						submit_id = currElem + "_submit"
+						document.getElementById(submit_id).click();
+						return false
+					}
+				});
+			});
+	</script>
+
+	<!--- Script to handle a name that the user searches for -->
+	<script>
+		$('body').on("click", '.submit', function(event) {
+			event.preventDefault()
+			search_button_id = this.id
+			search_id = search_button_id.substr(0, search_button_id.length-7)
+		 	to_search = $("#"+search_id).val();
+				$.ajax({
+					// Test if the string they searched for is a valid gymnast name
+					url: 'gymnast_validator',
+					data: {
+						'to_search': to_search
+					},
+					dataType: 'json',
+					success: function (data) {
+						if (data.gymnast_exists) {
+							// Send the gymnasts name back with proper case
+							$("#"+search_id).val(data.gymnast_exists)
+							// Put a check mark by the gymnasts name
+							$("#"+search_button_id).html("&#10003;")
+						}
+						else {
+							$('#'+search_id).val("") // Clears the gymnast that was just added from the search bar
+							$('#'+search_id).attr("placeholder", "Not found. Search again?")
+						}
+					}
+			});
+
+		});
+	</script>
+		
+
+	<!--- Script to validate input before form is submitted using the "get scores" button -->
+	<script>
+		$('body').on("click", '#get_scores', function(event) {
+
+			error_msg = ""
+
+			/* Clear old error message if an error message was displayed */
+			element = document.getElementById("get_scores_error")
+			if 	(!!element) {
+				element.parentNode.removeChild(element)
+			}
+
+			/* Re-check the team size options, in case the user changed anything */
+			team_size=document.getElementById("team_size").value
+			scores_up=document.getElementById("scores_up").value
+			scores_count=document.getElementById("scores_count").value
+			regex=/^[0-9]+$/;
+			if (!team_size.match(regex) || !scores_up.match(regex) || !scores_count.match(regex)) {
+				error_msg = error_msg + "Competition format must be filled out. "
+			}
+			else if (parseInt(team_size) < parseInt(scores_up) || parseInt(team_size) < parseInt(scores_count) || parseInt(scores_up) < parseInt(scores_count)) {
+				error_msg = error_msg + "Check team format - there can't be more scores than team members. "
+			}
+
+			/* Check that gymnast names are valid by testing if the accompanying button contains a plus or a checkmark */
+			bad_names = 0
+			for (i = 1; i <= team_size; i++) {
+				button_value = $("#gymnast_search"+i+"_submit").html()
+				if (button_value == "+") {
+					bad_names = bad_names + 1
+				}
+			}
+			if (bad_names == 1) {
+				error_msg = error_msg + "1 gymnast name isn't valid - make sure you've clicked the plus sign to add each gymnast to the team."
+			}
+			else if (bad_names > 1) {
+				error_msg = error_msg + bad_names + " gymnast names aren't valid - make sure you've clicked the plus sign to add each gymnast to the team."
+			}
+
+			/* If there was an error, display error_msg */
+			if (error_msg != "") {
+				para = document.createElement("P")
+				para.setAttribute("id", "get_scores_error")
+				t = document.createTextNode(error_msg)
+				para.appendChild(t)
+				$(para).insertBefore(document.getElementById("get_scores"))
+				console.log(error_msg)
+				event.preventDefault()
+			}
+			/* Else, allow the form to submit */
+			else {
+			}
+
+		} )
+	</script>
+
+	<!--- **********************************
+		  This section has the HTML for the results table
+		  ********************************** -->
+
+	{% if table_data|length > 0 %}
+		<br/>
+		<h4 style="text-align:center">Team Total: {{ team_total|floatformat:3 }}</h4>
+		<table class="scoretable">
+			<tr class="table_header" style="padding-bottom:10px;">
+				<th>Gymnast</th>
+				<th>Country</th>
+				<th>VT</th>
+				<th>UB</th>
+				<th>BB</th>
+				<th>FX</th>
+			</tr>
+			<tr class="no_hover"><td colspan=6></td></tr>
+				{% for row in table_data %}
+					{% if row.0 != "Team Total" %}
+						<tr class="no_hover">
+							<td><a href="{{ row.0.get_absolute_url }}">{{ row.0.name }}</a></td>
+							<td>{{ row.0.country.iso3c }}</td>
+							<td class="{{ row.1.1 }}">{{ row.1.0|floatformat:3 }}</td>
+							<td class="{{ row.2.1 }}">{{ row.2.0|floatformat:3 }}</td>
+							<td class="{{ row.3.1 }}">{{ row.3.0|floatformat:3 }}</td>
+							<td class="{{ row.4.1 }}">{{ row.4.0|floatformat:3 }}</td>
+						</tr>
+					{% else %}
+						<tr class="no_hover"><td colspan=6></td></tr>
+						<tr class="table_header">
+							<th>{{ row.0 }}</th>
+							<th></th>
+							<th>{{ row.1|floatformat:3 }}</th>
+							<th>{{ row.2|floatformat:3 }}</th>
+							<th>{{ row.3|floatformat:3 }}</th>
+							<th>{{ row.4|floatformat:3 }}</th>
+						</tr>
+					{% endif %}
+				{% endfor %}
+		</table>
+	{% endif %}
+{% endblock %}

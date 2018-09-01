@@ -1,0 +1,239 @@
+{% extends "base_generic.html" %}
+{% load humanize %}
+{% load static %}
+
+
+
+{% block content %}
+
+	<title>Score Selector</title>
+
+	<!--- **********************************
+		  This section has some of the javascript
+		  ********************************** -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
+
+	<!--- Script to resiez the area holding the list of names -->
+	<script>
+		function resize_textarea() {
+			gymnast_list = $('#gymnast_list').html()
+			new_rows = gymnast_list.split("\n").length
+			$('#gymnast_list').attr('rows', new_rows)
+		}
+	</script>
+
+
+
+	<!--- **********************************
+				This section has the HTML for the score selector form
+				********************************** -->
+
+	<h4 style="text-align:center">Use the Score Selector to match up gymnasts from around the world, score for score.</h4>
+
+	<!--- Form to query the score selector -->
+	<div class="form_style">
+		<form method="get">
+			{% csrf_token %}
+			<!--- Event -->
+			Compare 
+			<select name="event" ">
+				 <option value="AA" {%if event == "AA"%} selected {%endif%}>all around</option>
+				 <option value="VT" {%if event == "VT"%} selected {%endif%}>vault</option>
+				 <option value="UB" {%if event == "UB"%} selected {%endif%}>uneven bars</option>
+				 <option value="BB" {%if event == "BB"%} selected {%endif%}>balance beam</option>
+				 <option value="FX" {%if event == "FX"%} selected {%endif%}>floor</option>
+			</select>
+			scores
+			</br>
+			using each gymnast's
+			<select name="sumstat" ">
+				 <option value="max" {%if sumstat == "max"%} selected {%endif%}>best score</option>
+				 <option value="avg" {%if sumstat == "avg"%} selected {%endif%}>average score</option>
+			</select>
+			</br>
+			from
+			<select name="time">
+				 <option value="year" {%if time == "year"%} selected {%endif%}>this year</option>
+				 <option value="season" {%if time == "season"%} selected {%endif%}>this season</option>
+				 <option value="quad" {%if time == "quad"%} selected {%endif%}>this quad</option>
+			</select>
+			</br>
+
+			<!--- Search bar form for gymnasts names -->
+			<div class="ui-widget" style="text-align:center; padding-bottom:0px">
+			<input type="text" id="gymnast_search" name="to_search" size="60" class="search" style="margin-left:30px" placeholder="Add a gymnast...">
+			<button type="button" id = "gymnast_search_submit" class="submit">+</button>
+			<p id="gymnast_search_error"></p>
+			</div>
+			<!--- Box to dispaly the selected gymnasts -->
+			<textarea type="textarea" readonly id="gymnast_list" name="gymnast_list" rows=0 style="resize: none">{{ gymnast_list }}</textarea>
+			<script> resize_textarea() </script>
+			<br/>
+			<button type="button" id = "gymnast_search_clear" class="submit">Clear Gymnasts</button>
+			<br/>
+			<br/>
+			<input type="submit" class="submit2" value="Get Scores">
+		</form>
+	</div>
+
+	<!--- **********************************
+		This section has some more javascript
+		********************************** -->
+
+	<!--- Script for autocomplete in the form -->
+	<script type="text/javascript">
+	$('input[id="gymnast_search"]').keyup(function() {
+		var location_input=$('input[id="gymnast_search"]');
+			location_input.autocomplete({
+				source: "get_gymnast_names",
+				minLength: 2
+			});
+		} );
+		// Keeps same width as the search bar
+		jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+				var ul = this.menu.element;
+				ul.outerWidth(this.element.outerWidth());
+		}
+	</script>
+
+	<!--- Script to add to list of names -->
+	<script>
+		$("#gymnast_search_submit").click(function () {
+		 	to_search = $('input[id=gymnast_search]').val();
+				$.ajax({
+					// Test if the string they searched for is a valid gymnast name
+					url: 'gymnast_validator',
+					data: {
+						'to_search': to_search
+					},
+					dataType: 'json',
+					success: function (data) {
+						if (data.gymnast_exists) {
+							gymnast_list = $('#gymnast_list').html()
+							// Add the gymnast's name to our list of gymnast names
+							if (gymnast_list == "") {
+								gymnast_list = data.gymnast_exists;
+							}
+							else {
+								gymnast_list = gymnast_list + "\n" + data.gymnast_exists;
+							}
+							$('#gymnast_list').html(gymnast_list) // Sends the list to the text area
+							resize_textarea()
+							$('input[id=gymnast_search]').val("") // Clears the gymnast that was just added from the search bar
+							$('#gymnast_search_error').html("") // Clears the error message if one had been displayed from a previous attempt
+						}
+						else {
+							$('#gymnast_search_error').html("Not found. Search again?")
+							$('input[id=gymnast_search]').val("") // Clears the gymnast that was just added from the search bar
+						}
+					}
+			});
+
+		});
+	</script>
+
+	<!--- Script to clear the list of names -->
+	<script>
+		$("#gymnast_search_clear").click(function () {
+			$('#gymnast_list').html("");
+			resize_textarea()
+		})
+	</script>
+
+	<!--- Script to allow users to add gymnasts by pressing enter without submitting the whole form -->
+	<script>
+		//Submits the gymnast search on enter
+		document.getElementById("gymnast_search").addEventListener("keypress", function(event) {
+				if (event.keyCode == 13) {
+					event.preventDefault();
+					document.getElementById("gymnast_search_submit").click();
+				}
+		});
+		 // Supresses all behavior on enter for all other elements
+		 $(document).ready(function() {
+				$(window).keydown(function(event){
+					currElem = event.target.id;
+					if(event.keyCode == 13 && currElem != "gymnast_search") {
+						event.preventDefault();
+						return false;
+					}
+				});
+			});
+	</script>
+
+	<!--- **********************************
+		  This section has the HTML for the results table
+		  ********************************** -->
+
+	<!---Score table-->
+    {% if table_data|length > 0 %}
+    	<br/>
+    	<br/>
+		<table class="sortable scoretable"> 
+		{% if event == "AA" %}
+			<tr class="table_header">
+				<th>Gymnast</th>
+				<th>Country</th>
+				<th>VT</th>
+				<th>UB</th>
+				<th>BB</th>
+				<th>FX</th>
+				<th  id="row_to_sort">AA</th>
+			</tr>
+			{% for row in table_data %}
+				<tr>
+					<td><a href="{{ row.0.get_absolute_url }}">{{ row.0.name }}</a></td>
+					<td>{{ row.0.country.iso3c }}</td>
+					<td class="score">{{ row.1|floatformat:3 }}</td>
+					<td class="score">{{ row.2|floatformat:3 }}</td>
+					<td class="score">{{ row.3|floatformat:3 }}</td>
+					<td class="score">{{ row.4|floatformat:3 }}</td>
+					<td class="score">{{ row.5|floatformat:3 }}</td>
+				</tr>
+			{% endfor %}
+		{% elif event == "VT" %}
+			<tr class="table_header">
+				<th>Gymnast</th>
+				<th>Country</th>
+				<th>VT1</th>
+				<th>VT2</th>
+				<th  id="row_to_sort">Average</th>
+			</tr>
+			{% for row in table_data %}
+				<tr>
+					<td><a href="{{ row.0.get_absolute_url }}">{{ row.0.name }}</a></td>
+					<td>{{ row.0.country.iso3c }}</td>
+					<td class="score">{{ row.1|floatformat:3 }}</td>
+					<td class="score">{{ row.2|floatformat:3 }}</td>
+					<td class="score">{{ row.3|floatformat:3 }}</td>
+				</tr>
+			{% endfor %}
+		{% else %}
+			<tr class="table_header">
+				<th>Gymnast</th>
+				<th>Country</th>
+				<th id="row_to_sort">{{ event }}</th>
+			</tr>
+			{% for row in table_data %}
+				<tr>
+					<td><a href="{{ row.0.get_absolute_url }}">{{ row.0.name }}</a></td>
+					<td>{{ row.0.country.iso3c }}</td>
+					<td class="score">{{ row.1|floatformat:3 }}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+		</table>
+		<!--- Pre-sort the table by score -->
+		<script>
+			window.onload = function() {
+				(document.getElementById("row_to_sort")).click();
+				print(hi)
+			};
+		</script>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  Score for Score is a website dedicated to putting gymnastics data to good use. I created it during the lazy summer before starting graduate school, when I was looking for an interesting way to practice my database management skills. To help <i>you</i> put gymnastics data to good use, I've put together two tools:
+  </br>
+  </br>
+  <ul>
+    <li>The <a href="{% url 'score_selector' %}">Score Selector</a> lets you compare scores for individual gymnasts, in the all-around or on each event. It's great for thinking about who might take home a medal or qualify for event finals. </li>  </br>
+    <li> The <a href="{% url 'team_tester' %}">Team Tester</a> lets you calculate team totals for any line-up you'd like. Choose a five-person, three up, three count situion to check what might happen in the World Championships team final. Or look ahead to Tokyo 2020 and try out four-person team. See who's scores might be used and who's might get dropped.</li>
+  </ul>
+  The <a href="{% url 'posts' %}">blog</a> houses further gymnastics-related content. Some of it is data-driven, some of it isn't. If you've got an idea about women's artistic gymnastics and you're looking for a place to put it, let me know - guest posts are certainly welcome. 
+  </br>
+  </br>
+  The scores themselves are pulled from <a href=http://thegymter.net/>The Gymternet</a>. Without their painstaking efforts to put scores into a clean and usable format, Score for Score would not be possible. 
+  </br>
+  </br>
+  Further questions? Contact me at brina.scoreforscore@gmail.com. 
+  </br>
+  </br>
+  <i>Follow <a href="https://twitter.com/ScoreforScore">@ScoreforScore</a> for regular updates (and miscellaneous twitter nonsense, too). </i>
+
+{% endblock %}

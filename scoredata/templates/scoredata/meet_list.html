@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+<title>Meets - Score for Score</title>
+{% block content %}
+	
+	<h1>Meets</h1>
+	{% if meet_list %}
+	<ul>
+		{% for meet in meet_list %}
+			<li>
+				<a href="{{ meet.get_absolute_url }}">{{ meet.name }}</a> ({% if meet.start_date != meet.end_date %}{{ meet.start_date }} to {{ meet.end_date }}{% else %}{{ meet.start_date }}{% endif %})
+			</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<p>There are no meets in the database.</p>
+	{% endif %}			 
+{% endblock %}
