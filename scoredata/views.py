@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.views import generic
-from dal import autocomplete
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
 from dateutil.relativedelta import relativedelta
