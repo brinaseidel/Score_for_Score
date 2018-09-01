@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://127.0.0.1:8000/scoredata/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./127.0.0.1_files/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="./127.0.0.1_files/css" rel="stylesheet">
+
+  <!-- Add additional CSS in static file -->
+  </head><body><div class="header" id="mainheader">
+    <br>
+    <!--- <a href="/scoredata/"><img src="/static/images/figure.jpg" width=100></a> -->
+    <a href="http://127.0.0.1:8000/scoredata/"><h1>Score for Score</h1></a>
+    <link rel="stylesheet" type="text/css" href="./127.0.0.1_files/styles.css">
+
+    <!-- Add navigational bar -->
+    <div class="navbar" id="topnavbar">
+        <a href="http://127.0.0.1:8000/scoredata/about_us">About Us</a>
+        <a href="http://127.0.0.1:8000/scoredata/meets/">Meets</a>
+        <a href="http://127.0.0.1:8000/scoredata/#contact">Contact</a>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Add a script to format numbers -->
+
+  <div class="main">
+      
+
+<script src="./127.0.0.1_files/jquery.min.js"></script>
+<link href="./127.0.0.1_files/jquery-ui.css" rel="stylesheet">
+<script src="./127.0.0.1_files/jquery-ui.min.js"></script>
+
+  <h2 style="text-align:center">Search <strong>25,765</strong> scores for <strong>3,155</strong> gymnasts from <strong>116</strong> meets around the world. </h2>
+
+  <!--- Script for autocomplete in the form -->
+	<script type="text/javascript">
+	    $(document).ready(function(){
+	        var location_input=$('input[id="autocomplete-search"]');
+	        location_input.autocomplete({
+	          source: "get_search_names",
+	          minLength: 2
+	        });
+	      } );
+
+	    //   keeps same width as box
+	      jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+	          var ul = this.menu.element;
+	          ul.outerWidth(this.element.outerWidth());
+	        }
+	</script>
+
+  <!--- Search bar form -->
+  <div class="ui-widget" style="text-align:center">
+	<form method="get">
+		<input type="text" id="autocomplete-search" name="to_search" size="75" class="search ui-autocomplete-input" autocomplete="off">
+		<input type="submit" class="submit" value="Go">
+	</form>
+  </div>
+
+  <!--- Display error message if search was unsuccessful -->
+  
+
+
+
+      <!-- Add code to show next, previous, etc. for paginated list views -->
+      
+
+        
+     
+
+  </div>
+
+
+<ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="display: none; width: 608px; top: 304px; left: 307.609px;"><li class="ui-menu-item"><div id="ui-id-2" tabindex="-1" class="ui-menu-item-wrapper">Arisa Sano</div></li><li class="ui-menu-item"><div id="ui-id-3" tabindex="-1" class="ui-menu-item-wrapper">Arisa Toyama</div></li><li class="ui-menu-item"><div id="ui-id-4" tabindex="-1" class="ui-menu-item-wrapper">Arina Semukhina</div></li><li class="ui-menu-item"><div id="ui-id-5" tabindex="-1" class="ui-menu-item-wrapper">Arianna Sborchia</div></li><li class="ui-menu-item"><div id="ui-id-6" tabindex="-1" class="ui-menu-item-wrapper">Aruna Budda Reddy</div></li><li class="ui-menu-item"><div id="ui-id-7" tabindex="-1" class="ui-menu-item-wrapper">Arianna Bellan</div></li><li class="ui-menu-item"><div id="ui-id-8" tabindex="-1" class="ui-menu-item-wrapper">Arina Olenova</div></li><li class="ui-menu-item"><div id="ui-id-9" tabindex="-1" class="ui-menu-item-wrapper">Arleta Prazakova</div></li><li class="ui-menu-item"><div id="ui-id-10" tabindex="-1" class="ui-menu-item-wrapper">Argyro Afrati</div></li><li class="ui-menu-item"><div id="ui-id-11" tabindex="-1" class="ui-menu-item-wrapper">Ariana Orrego</div></li><li class="ui-menu-item"><div id="ui-id-12" tabindex="-1" class="ui-menu-item-wrapper">Arianna Castaneda</div></li><li class="ui-menu-item"><div id="ui-id-13" tabindex="-1" class="ui-menu-item-wrapper">Aray Koygeldina</div></li><li class="ui-menu-item"><div id="ui-id-14" tabindex="-1" class="ui-menu-item-wrapper">Aru Dauletkaliyeva</div></li><li class="ui-menu-item"><div id="ui-id-15" tabindex="-1" class="ui-menu-item-wrapper">Arailym Meiram</div></li><li class="ui-menu-item"><div id="ui-id-16" tabindex="-1" class="ui-menu-item-wrapper">Arlet Perez</div></li><li class="ui-menu-item"><div id="ui-id-17" tabindex="-1" class="ui-menu-item-wrapper">Aranza Rocha</div></li><li class="ui-menu-item"><div id="ui-id-18" tabindex="-1" class="ui-menu-item-wrapper">Areti Papadioti</div></li><li class="ui-menu-item"><div id="ui-id-19" tabindex="-1" class="ui-menu-item-wrapper">Arianna Snesare</div></li><li class="ui-menu-item"><div id="ui-id-20" tabindex="-1" class="ui-menu-item-wrapper">Arika Hoshi</div></li><li class="ui-menu-item"><div id="ui-id-21" tabindex="-1" class="ui-menu-item-wrapper">Arika Miyamoto</div></li><li class="ui-menu-item"><div id="ui-id-22" tabindex="-1" class="ui-menu-item-wrapper">Armartiani Armartiani</div></li></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"><div style="display: none;">21 results are available, use up and down arrow keys to navigate.</div><div style="display: none;">Arisa Sano</div><div style="display: none;">Arisa Toyama</div><div style="display: none;">Arina Semukhina</div><div>Arisa Toyama</div></div></body></html>

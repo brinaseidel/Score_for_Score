@@ -1,0 +1,180 @@
+body {
+    background-color: #F7EFE2;
+    color: #00293C;
+    font-family: 'Roboto Condensed', Helvetica, sans-serif;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+/* Header */
+.header {
+	position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; 
+    background-color: #F7EFE2;
+    margin: auto;
+    text-align: center;
+}
+.header a:link {
+    color: #00293C;
+}
+.header a:visited {
+    color: #00293C;
+}
+.header a:hover {
+    color: #00293C;
+    text-decoration: none;
+}
+.header a:active {
+    color: #00293C;
+}
+
+/* The navigation bar */
+.navbar {
+    overflow: hidden;
+    background-color: #F7EFE2;
+    width: 50%;
+    margin: auto;
+
+}
+/* Links inside the navbar */
+.header .navbar a {
+    float: left;
+    display: block;
+    color: #00293C;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change background on mouse-over */
+.header .navbar a:hover {
+    background: #00293C;
+    color: #F7EFE2;
+    text-decoration: none;
+    border-radius: 5px
+}
+
+/* Main content */
+.main {
+    margin-top: 180px; /* Add a top margin to avoid content overlay */
+    padding: 50px 80px 75px 80px
+}
+
+.main a:link {
+	color: #82141c;
+    text-decoration: none;
+}
+.main a:visited {
+	color: #82141c;
+    text-decoration: none;
+}
+.main a:hover {
+    color: #82141c;
+    text-decoration: underline;
+}
+.main a:active {
+	color: #82141c;
+    text-decoration: none;;
+}
+
+/* Footer navigation bar for paginated lists */
+.pagination > li > a {
+	border: 0px;
+	background-color: #F7EFE2;
+}
+.page-item.disabled .page-link {
+	color: #00293C;
+	border: 0px;
+	background-color: #F7EFE2;
+}
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+	border: 0px;
+	color: #F7EFE2;
+    background-color: #82141c;
+    text-decoration: none;
+    border-radius: 5px
+
+}
+
+/* Tables for displaying scores */
+table.scoretable {
+	margin-left:auto; 
+	margin-right:auto;
+}
+th {
+	background-color:#00293C;
+	font-weight: bold;
+	color: #F7EFE2;
+}
+th, td {
+    padding: 7px;
+    text-align: left;
+}
+table.scoretable td.gymnast {
+	width: 240px;
+}
+table.scoretable td.score {
+	width: 70px;
+}
+table.scoretable td.country {
+	width: 100px;
+}
+table.scoretable tr:not(.table_header):hover {
+	background-color: #00293C;
+	color: #F7EFE2;
+}
+table.scoretable tr:not(.table_header):hover a {
+	background-color: #00293C;
+	color: #F7EFE2;
+}
+/* Form */
+.submit {
+    border: 0;
+    padding-top, padding-bottom: 2px;
+    padding-left, padding-right: 10px;
+    text-align: center;
+    color: #00293C;
+    border-radius: 5px;
+    background-color: #F7EFE2;
+    font-family: inherits;
+
+
+}
+.submit:hover {
+    background-color: #00293C;
+    color: #F7EFE2
+}
+input.search {
+    border: none;
+    border-bottom: 2px solid #00293C;
+    background-color: #F7EFE2;
+    font-family : inherit;
+    color: #00293C;
+}
+
+input[type=text]:focus {
+	outline: none;
+}
+
+.ui-autocomplete {
+    background: red;
+    border-radius: 0px;
+}
+.ui-autocomplete.source:hover {
+    background: red;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    color: #00293C;
+    font-family : inherit;
+
+}
+.ui-menu .ui-menu-item a{
+	background-color:red;
+}
