@@ -110,7 +110,6 @@ snowballstemmer==1.2.1
 sortedcollections==0.5.3
 sortedcontainers==1.5.7
 spacy==2.0.5
-\sphinxcontrib-websupport==1.0.1
 SQLAlchemy==1.1.13
 sympy==1.1.1
 tables==3.4.2
