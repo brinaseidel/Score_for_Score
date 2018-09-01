@@ -54,7 +54,7 @@ class Meet(models.Model):
 	start_date = models.DateField(null=True, blank=True)
 	end_date = models.DateField(null=True, blank=True)
 	gymnast = models.ManyToManyField(Gymnast, help_text='Gymnasts who competed at this meet')
-
+	id = models.PositiveIntegerField(primary_key=True)
 	def __str__(self):
 		return self.name
 
