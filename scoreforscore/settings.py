@@ -26,8 +26,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'su%36nbd#m7$!csfn4rtm29#a45hu!
 #DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
-
 CSRF_COOKIE_SECURE = True
 
 # Application definition
