@@ -1,9 +1,10 @@
 {% extends "base_generic.html" %}
 {% load static %}
 
-<title>{{ gymnast.name }} - Score for Score</title>
 {% block content %}
-<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
+	<title>{{ gymnast.name }} | Score for Score</title>
+
+	<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
 
 	<h1>{{ gymnast.name }}</h1>
 	<p>{{ gymnast.country }}</p>

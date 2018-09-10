@@ -34,6 +34,12 @@ class Gymnast(models.Model):
 		"""
 		return reverse('gymnast-detail', args=[str(self.id)])
 
+	def get_absolute_url_name(self):
+		"""00293C
+		Returns the url to access a detail record for this gymnast.
+		"""
+		return reverse('gymnast-detail', args=[str(self.name)])
+
 
 class Country(models.Model):
 
