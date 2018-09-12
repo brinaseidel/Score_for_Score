@@ -9,6 +9,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import ListView
 import numpy as np
 from .models import Gymnast, Country, Meet, Event, Score, Post, Author, Tag
+from django.template import Template, Context
 
 # *******************************
 # Pages related to the scores database
