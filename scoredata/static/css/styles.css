@@ -249,3 +249,11 @@ select, textarea :focus {
 .blog_body {
     line-height: 1.2;
 }
+
+/*To center images*/
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
