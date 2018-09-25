@@ -64,6 +64,9 @@ class Command(BaseCommand):
 		# Drop vault averages and totals
 		scores.drop(["vt_total_d", "vt_avg"], axis=1)
 
+		# Clean a typo
+		scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
+
 		# **************************
 		# Clean the meet type
 		# **************************
