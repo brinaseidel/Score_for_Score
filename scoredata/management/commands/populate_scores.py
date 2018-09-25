@@ -64,8 +64,10 @@ class Command(BaseCommand):
 		# Drop vault averages and totals
 		scores.drop(["vt_total_d", "vt_avg"], axis=1)
 
-		# Clean a typo
+		# Clean some typos
 		scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
+		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
+		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
 
 		# **************************
 		# Clean the meet type
@@ -268,6 +270,12 @@ class Command(BaseCommand):
 		meet = Meet.objects.get(name = "Buckeye Qualifier (2018)")
 		meet.start_date = datetime.date(2018, 2, 1)
 		meet.end_date = datetime.date(2018, 2, 2)
+		meet.save()
+		meet = Meet.objects.get(name = "Swiss Duel (2018)")
+		meet.start_date = datetime.date(2018, 9, 23)
+		meet.save()
+		meet = Meet.objects.get(name = "German Worlds Trial (2018)")
+		meet.start_date = datetime.date(2018, 9, 15)
 		meet.save()
 
 
