@@ -88,6 +88,10 @@ class Command(BaseCommand):
 		# Drop vault averages and totals
 		scores.drop(["vt_total_d", "vt_avg"], axis=1)
 
+		# Clean historic data
+		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
+		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
+
 		# **************************
 		# Clean the meet type
 		# **************************

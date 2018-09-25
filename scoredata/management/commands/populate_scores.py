@@ -243,9 +243,11 @@ class Command(BaseCommand):
 		# **************************
 		meet = Meet.objects.get(name = "U.S. Verification (April) (2018)")
 		meet.start_date = datetime.date(2018, 4, 8)
+		meet.end_date = datetime.date(2018, 4, 8)		
 		meet.save()
 		meet = Meet.objects.get(name = "Top 12 Final (2018)")
 		meet.start_date = datetime.date(2018, 3, 17)
+		meet.end_date = datetime.date(2018, 3, 17)
 		meet.save()
 		meet = Meet.objects.get(name = "Brestyan's National Qualifier (2018)")
 		meet.start_date = datetime.date(2018, 6, 23)
@@ -273,10 +275,13 @@ class Command(BaseCommand):
 		meet.save()
 		meet = Meet.objects.get(name = "Swiss Duel (2018)")
 		meet.start_date = datetime.date(2018, 9, 23)
+		meet.end_date = datetime.date(2018, 9, 23)
 		meet.save()
 		meet = Meet.objects.get(name = "German Worlds Trial (2018)")
 		meet.start_date = datetime.date(2018, 9, 15)
+		meet.end_date = datetime.date(2018, 9, 15)
 		meet.save()
+
 
 
 	def handle(self, *args, **options):
