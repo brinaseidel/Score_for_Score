@@ -271,7 +271,7 @@ def score_selector(request):
 			if event == "AA":
 				for sub_event in ["VT", "UB", "BB", "FX"]:
 					scores = Score.objects.filter(gymnast=gymnast, 
-						meet__in=Meet.objects.filter(start_date__range=date_range), event__in=Event.objects.filter(name=sub_event))
+						meet__in=Meet.objects.filter(start_date__range=date_range), event__in=Event.objects.filter(name=sub_event), score_num=1)
 					if scores.count() > 0:
 						if sumstat == "avg":
 							scores_sumstat = scores.aggregate(Avg('score'))['score__avg']
