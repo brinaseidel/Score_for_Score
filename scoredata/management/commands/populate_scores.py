@@ -67,6 +67,8 @@ class Command(BaseCommand):
 		# Clean some typos
 		try:
 			scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
+		except:
+			print("I guess the score typo was fixed...")
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
 
