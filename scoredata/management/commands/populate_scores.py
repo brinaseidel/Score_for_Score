@@ -65,7 +65,8 @@ class Command(BaseCommand):
 		scores.drop(["vt_total_d", "vt_avg"], axis=1)
 
 		# Clean some typos
-		scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
+		try:
+			scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
 
