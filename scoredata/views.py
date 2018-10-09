@@ -470,11 +470,11 @@ class PostDetailView(generic.DetailView):
 		context = super(PostDetailView, self).get_context_data(**kwargs)
 		
 		# Pre-render the blog text so that we can parse template code contained within the blog text
-		text_to_render = '{% load static %}' + context["post"].text 
-		template = Template(text_to_render)
-		ctx = Context({'post': context["post"]})
-		post_text = template.render(ctx)  # result is 'Your name is Cam'
-		context['post_text'] = post_text
+		#text_to_render = '{% load static %}' + context["post"].text 
+		#template = Template(text_to_render)
+		#ctx = Context({'post': context["post"]})
+		#post_text = template.render(ctx)  # result is 'Your name is Cam'
+		#context['post_text'] = post_text
 
 		# Get list of tags and # of posts in each tag
 		tags = []

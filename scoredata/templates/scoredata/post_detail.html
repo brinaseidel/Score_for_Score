@@ -18,7 +18,7 @@
 			</div>
 			<div class = "blog_body">
 				<br/> <br/>
-				{{ post_text|safe|linebreaks }}
+				{{ post.text|safe|linebreaks }}
 				</br>
 				<p style= "font-size:small;">Tags: {% for tag in post.tag.all %}<a href="{{ tag.get_absolute_url }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 			</div> 
