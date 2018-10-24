@@ -91,6 +91,7 @@ class Command(BaseCommand):
 		# Clean historic data
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
 		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
+		scores["gymnast"] = scores.gymnast.str.replace("Laurie Denommee", "Laurie Dénommée")
 
 		# **************************
 		# Clean the meet type
