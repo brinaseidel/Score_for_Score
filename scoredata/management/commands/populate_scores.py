@@ -36,7 +36,7 @@ class Command(BaseCommand):
 		# D scores
 		dscore = pd.read_csv("https://docs.google.com/spreadsheets/d/1HI0tOSgjIS8rFjbTwCTlhG1LxP6sttzDMN3-4u0B0u4/export?gid=1212101599&format=csv")
 		dscore.head()
-		dscore.drop(dscore.columns[len(dscore.columns)-1], axis=1, inplace=True)
+		#dscore.drop(dscore.columns[len(dscore.columns)-1], axis=1, inplace=True)
 		dscore.columns = ["gymnast", "country", "meet_name", "vt1_d", "ub_d", "bb_d", "fx_d", "vt_total_d"]
 
 

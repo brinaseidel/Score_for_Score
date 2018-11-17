@@ -258,7 +258,7 @@ def score_selector(request):
 		if time=="year":
 			date_range = [now-relativedelta(years=1), now]
 		elif time == "season":
-			date_range = [datetime.date(2017, 10, 8), now] # Since last world championships
+			date_range = [datetime.date(2018, 11, 3), now] # Since last world championships
 		else:
 			date_range = [datetime.date(2016, 8, 21), now] # Since last olympics
 
@@ -361,7 +361,7 @@ def team_tester(request):
 		if time=="year":
 			date_range = [now-relativedelta(years=1), now]
 		elif time == "season":
-			date_range = [datetime.date(2017, 10, 8), now] # Since last world championships
+			date_range = [datetime.date(2018, 11, 3), now] # Since last world championships
 		else:
 			date_range = [datetime.date(2016, 8, 21), now] # Since last olympics
 
