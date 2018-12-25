@@ -81,6 +81,8 @@ class GymnastDetailView(generic.DetailView):
 					# Save just the score value for this score instance
 				total_score = score.score
 				d_score = score.d_score
+				if d_score != d_score: # d_score must be NaN
+					d_score == None
 				score = [total_score, d_score]
 			except Score.DoesNotExist:
 				score = ["-", None]
