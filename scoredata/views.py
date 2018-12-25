@@ -10,7 +10,7 @@ from django.views.generic import ListView
 import numpy as np
 from .models import Gymnast, Country, Meet, Event, Score, Post, Author, Tag
 from django.template import Template, Context
-from math import sqrt
+from math import sqrt, isnan
 
 # *******************************
 # Pages related to the scores database
@@ -82,7 +82,7 @@ class GymnastDetailView(generic.DetailView):
 				total_score = score.score
 				d_score = score.d_score
 				if d_score != d_score: # d_score must be NaN
-					d_score == None
+					d_score = None
 				score = [total_score, d_score]
 			except Score.DoesNotExist:
 				score = ["-", None]
