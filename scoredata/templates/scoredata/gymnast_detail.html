@@ -6,43 +6,98 @@
 
 	<script type="text/javascript" src="{% static 'js/sorttable.js' %}"></script>
 
-	<h1>{{ gymnast.name }}</h1>
-	<p>{{ gymnast.country }}</p>
+	<h1 style="text-align: center;">{{ gymnast.name }}</h1>
+	<h4 style="text-align: center;">{{ gymnast.country }}</h4><br/>
 	{% if gymnast.summary %}
 		<p>{{ gymnast.summary }}</p> 
 	{% endif %}
-	</br></br>
+	{% if consistency|length > 0 %}
+		<h4 style="text-align: center; ">Consistency Stats [<a href="https://www.scoreforscore.com/scoredata/post/16"><i>? </i></a>]</p></h4>
+		<table class="scoretable"> 
+			<tr class="table_header">
+				<th>VT</th>
+				<th>VT2</th>
+				<th>UB</th>
+				<th>BB</th>
+				<th>FX</th>
+				<th>Overall</th>
+			</tr>
+				<td class="score">{{ consistency.VT1|floatformat:3 }}</td>
+				<td class="score">{{ consistency.VT2|floatformat:3 }}</td>
+				<td class="score">{{ consistency.UB|floatformat:3 }}</td>
+				<td class="score">{{ consistency.BB|floatformat:3 }}</td>
+				<td class="score">{{ consistency.FX|floatformat:3 }}</td>
+				<td class="score">{{ consistency.total|floatformat:3 }}</td>
+			<tr>
+			</tr>
+		</table>
+
+
+	{% endif %}
+
+	</br>
 	<!---Score table-->
+	<h4 style="text-align: center;"> Scores</h4>
 	<table class="sortable scoretable"> 
-	<tr class="table_header">
-		<th>Meet</th>
-		<th>Start Date</th>
-		<th>Meet Event</th>
-		<th>VT</th>
-		<th>VT2</th>
-		<th>UB</th>
-		<th>BB</th>
-		<th>FX</th>
-		<th>AA</th>
-	</tr>
-	{% for info in to_display %}
-	<tr>
-		<td><a href="{{ info.0.get_absolute_url }}">{{ info.0.name }}</a></td>
-		<td>{{ info.0.start_date|date:"m/d/Y" }}</td>
-		<td>{{ info.1 }}</td>
-		<td class="score">{{ info.2|floatformat:3 }}</td>
-		<td class="score">{{ info.3|floatformat:3 }}</td>
-		<td class="score">{{ info.4|floatformat:3 }}</td>
-		<td class="score">{{ info.5|floatformat:3 }}</td>
-		<td class="score">{{ info.6|floatformat:3 }}</td>
-		<td class="score">{{ info.7|floatformat:3 }}</td>
-	</tr>
+		<tr class="table_header">
+			<th>Meet</th>
+			<th class="to_sort">Start Date</th>
+			<th>Meet Event</th>
+			<th>VT</th>
+			<th>VT2</th>
+			<th>UB</th>
+			<th>BB</th>
+			<th>FX</th>
+			<th>AA</th>
+		</tr>
+		{% for info in scores_to_display %}
+			<tr>
+				<td><a href="{{ info.0.get_absolute_url }}">{{ info.0.name }}</a></td>
+				<td>{{ info.0.start_date|date:"m/d/Y" }}</td>
+				<td>{{ info.1 }}</td>
+				<td class="score">{{ info.2|floatformat:3 }}</td>
+				<td class="score">{{ info.3|floatformat:3 }}</td>
+				<td class="score">{{ info.4|floatformat:3 }}</td>
+				<td class="score">{{ info.5|floatformat:3 }}</td>
+				<td class="score">{{ info.6|floatformat:3 }}</td>
+				<td class="score">{{ info.7|floatformat:3 }}</td>
+			</tr>
 		{% endfor %}
 	</table>
+	</br>
+	<!---D-Score table-->
+	<h4 style="text-align: center;"> Difficulty Scores</h4>
+	<table class="sortable scoretable"> 
+		<tr class="table_header">
+			<th>Meet</th>
+			<th "to_sort">Start Date</th>
+			<th>Meet Event</th>
+			<th>VT</th>
+			<th>VT2</th>
+			<th>UB</th>
+			<th>BB</th>
+			<th>FX</th>
+		</tr>
+		{% for info in d_scores_to_display %}
+			<tr>
+				<td><a href="{{ info.0.get_absolute_url }}">{{ info.0.name }}</a></td>
+				<td>{{ info.0.start_date|date:"m/d/Y" }}</td>
+				<td>{{ info.1 }}</td>
+				<td class="score">{{ info.2|floatformat:3 }}</td>
+				<td class="score">{{ info.3|floatformat:3 }}</td>
+				<td class="score">{{ info.4|floatformat:3 }}</td>
+				<td class="score">{{ info.5|floatformat:3 }}</td>
+				<td class="score">{{ info.6|floatformat:3 }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+
 	<!--- Pre-sort the table by gymnast name-->
 	<script>
 		window.onload = function() {
-			(document.getElementsByTagName( 'th' )[1]).click();
+			elements = document.getElementsByClassName('to_sort')
+			for (var i=0; i<elements.length; i++)
+				elements[i].click();
 		};
 	</script>
 {% endblock %}

@@ -10,6 +10,7 @@ from django.views.generic import ListView
 import numpy as np
 from .models import Gymnast, Country, Meet, Event, Score, Post, Author, Tag
 from django.template import Template, Context
+from math import sqrt
 
 # *******************************
 # Pages related to the scores database
@@ -62,6 +63,7 @@ class MeetListView(generic.ListView):
 	model = Meet
 	paginate_by = 50
 
+
 # Detail view for a single gymnast
 class GymnastDetailView(generic.DetailView):
 
@@ -78,26 +80,33 @@ class GymnastDetailView(generic.DetailView):
 					gymnast=Gymnast.objects.get(id=gymnast), 
 					event__in=Event.objects.filter(name=event), score_num=score_num)
 					# Save just the score value for this score instance
-				score = score.score
+				total_score = score.score
+				d_score = score.d_score
+				score = [total_score, d_score]
 			except Score.DoesNotExist:
-				score = "-"
+				score = ["-", None]
 			return score
 
 		# Get a unique list of meets that have scores for this gymnast
 		meets = Score.objects.filter(gymnast=self.object).values_list('meet').distinct()
-		to_display = []
+		scores_to_display = []
+		d_scores_to_display = []
 		for meet in meets:
 			# Get a unique list of meet days when this gymnast competed for each meet 
 			meet_days = Score.objects.filter(gymnast=self.object).filter(meet=meet).values_list('meet_day').distinct()
 			for day in meet_days:
 				# Store the meet instance and meet day
 				this_meet_info = [Meet.objects.get(pk=meet[0]), day[0]]
+				this_meet_info_d = [Meet.objects.get(pk=meet[0]), day[0]]
 				# Add the VT1, VT2, UB, BB, FX, AA scores to the list
-				this_meet_info.append(get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, "VT", 1))
-				this_meet_info.append(get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, "VT", 2))
-				this_meet_info.append(get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, "UB", 1))
-				this_meet_info.append(get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, "BB", 1))
-				this_meet_info.append(get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, "FX", 1))
+				any_d = 0
+				for event, num in [("VT", 1), ("VT", 2), ("UB", 1), ("BB", 1), ("FX", 1)]:
+					scores = get_scores(Meet.objects.get(pk=meet[0]).name, day[0], self.object.id, event, num)
+					this_meet_info.append(scores[0])
+					this_meet_info_d.append(scores[1])
+					# Mark if there's any d scores for this meet
+					if scores[1] != None:
+						any_d = 1
 				# Calculate AA score if applicable
 				if day[0] != "EF" and isinstance(this_meet_info[2], float) and isinstance(this_meet_info[4], float) and isinstance(this_meet_info[5], float) and isinstance(this_meet_info[6], float):
 					aa_total = float(this_meet_info[2]) + float(this_meet_info[4]) + float(this_meet_info[5]) + float(this_meet_info[6])
@@ -105,11 +114,45 @@ class GymnastDetailView(generic.DetailView):
 				else:
 					this_meet_info.append("-")
 				# Add info for this meet day to the list of data to display in the table
-				to_display.append(this_meet_info)
-
+				scores_to_display.append(this_meet_info)
+				# If there was any d score data, then add the info for this meet day to the list of data to display in the d score table oto
+				if any_d == 1:
+					d_scores_to_display.append(this_meet_info_d)
 		# Add an extra field to the context with the information for the table
-		context['to_display'] = to_display
+		context['scores_to_display'] = scores_to_display
+		context['d_scores_to_display'] = d_scores_to_display
+
+		# Calculate consistency score for the past year
+		now = datetime.datetime.now()
+		scores = Score.objects.filter(gymnast=self.object, meet__in=Meet.objects.filter(start_date__range=[now-relativedelta(years=1), now]))
+		# Sort scores by event
+		e_scores = {'VT1': [], 'VT2': [], 'VT':[], 'UB': [], 'BB': [], 'FX': [], 'total':[]}
+		for score in scores:
+			if (score.d_score is not None):
+				if score.event.name=="VT":
+					if score.score_num == 1:
+						e_scores["VT1"].append(score.score-score.d_score)
+					else:
+						e_scores["VT2"].append(score.score-score.d_score)
+				else:
+					e_scores[score.event.name].append(score.score-score.d_score)
+				e_scores['total'].append(score.score-score.d_score)
+		# Calculate consistency score
+		consistency = {}
+		for key, value in e_scores.items():
+			if len(value) > 1 and key !="total":
+				mean = sum(value)/len(value)
+				ssd = sum([(item-mean)**2 for item in value])
+				consistency[key] = sqrt(ssd/len(value))
+		if consistency != {}:
+			if "VT2" in consistency:
+				consistency["total"] = float((sum(consistency.values()) - consistency["VT2"])/(len(consistency)-1))
+			else:
+				consistency["total"] = float(sum(consistency.values())) / len(consistency)
+		context['consistency'] = consistency
+
 		return context
+
 
 # Detail view for a single meet
 class MeetDetailView(generic.DetailView):
@@ -236,7 +279,6 @@ class MeetDetailView(generic.DetailView):
 		# Add an extra field to the context with the list of gymnast querysets
 		context['to_display'] = to_display
 		return context
-
 
 # Score Selector 
 def score_selector(request):
