@@ -64,7 +64,6 @@ class MeetListView(generic.ListView):
 	paginate_by = 50
 
 
-# Detail view for a single gymnast
 class GymnastDetailView(generic.DetailView):
 
 	model = Gymnast
@@ -105,7 +104,7 @@ class GymnastDetailView(generic.DetailView):
 					this_meet_info.append(scores[0])
 					this_meet_info_d.append(scores[1])
 					# Mark if there's any d scores for this meet
-					if scores[1] != None:
+					if scores[1] != None and scores[1]==scores[1]:
 						any_d = 1
 				# Calculate AA score if applicable
 				if day[0] != "EF" and isinstance(this_meet_info[2], float) and isinstance(this_meet_info[4], float) and isinstance(this_meet_info[5], float) and isinstance(this_meet_info[6], float):
@@ -128,7 +127,7 @@ class GymnastDetailView(generic.DetailView):
 		# Sort scores by event
 		e_scores = {'VT1': [], 'VT2': [], 'VT':[], 'UB': [], 'BB': [], 'FX': [], 'total':[]}
 		for score in scores:
-			if (score.d_score is not None):
+			if (score.d_score is not None) and (score.d_score == score.d_score):
 				if score.event.name=="VT":
 					if score.score_num == 1:
 						e_scores["VT1"].append(score.score-score.d_score)
