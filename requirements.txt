@@ -10,7 +10,7 @@ Cython==0.26.1
 dask==0.15.3
 distributed==1.19.1
 dj-database-url==0.5.0
-Django==2.0.5
+Django==2.0.8
 django-countries==5.3.1
 django-csvimport==2.11
 django-extensions==2.1.0
@@ -42,12 +42,12 @@ pycodestyle==2.3.1
 pycosat==0.6.3
 pycountry==18.5.26
 pycparser==2.18
-pyOpenSSL==17.2.0
+pyOpenSSL==17.5.0
 pyparsing==2.2.0
 pytest==3.2.1
 python-dateutil==2.6.1
 regex==2017.4.5
-requests==2.18.4
+requests==2.20.0
 simplegeneric==0.8.1
 sortedcollections==0.5.3
 sortedcontainers==1.5.7
@@ -61,7 +61,7 @@ textblob==0.15.0
 typing==3.6.2
 ujson==1.35
 unicodecsv==0.14.1
-urllib3==1.22
+urllib3==1.23
 wcwidth==0.1.7
 whitenoise==4.0
 widgetsnbextension==3.0.2
