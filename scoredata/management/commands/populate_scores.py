@@ -29,7 +29,7 @@ class Command(BaseCommand):
 		# **************************
 
 		# Totals
-		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1_5z1l4_kwA_3Zpetsic3tB43F6B02bGAFwl2g7kFdis/export?gid=0&format=csv")
+		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1pX3chj6fomf2dZQukdAh19H4K3uVZYW08WU_MIyPrJE/export?gid=0&format=csv")
 		scores.head()
 		scores.columns = ["gymnast", "country", "meet_name", "meet_day", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2019"]
 
