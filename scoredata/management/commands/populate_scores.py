@@ -113,31 +113,31 @@ class Command(BaseCommand):
 				if pd.isnull(row.vt1)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2018), score=row.vt1, d_score=row.vt1_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2019), score=row.vt1, d_score=row.vt1_d, score_num=1)
 					score_instance.save()
 				# Bars
 				if pd.isnull(row.ub)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="UB", junior=row.junior2018), score=row.ub, d_score=row.ub_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="UB", junior=row.junior2019), score=row.ub, d_score=row.ub_d, score_num=1)
 					score_instance.save()
 				# Balance beam
 				if pd.isnull(row.bb)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="BB", junior=row.junior2018), score=row.bb, d_score=row.bb_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="BB", junior=row.junior2019), score=row.bb, d_score=row.bb_d, score_num=1)
 					score_instance.save()
 				# Floor
 				if pd.isnull(row.fx)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="FX", junior=row.junior2018), score=row.fx, d_score=row.fx_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="FX", junior=row.junior2019), score=row.fx, d_score=row.fx_d, score_num=1)
 					score_instance.save()
 				# Vault 2
 				if pd.isnull(row.vt2)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2018), score=row.vt2, d_score=row.vt2_d, score_num=2)
+						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2019), score=row.vt2, d_score=row.vt2_d, score_num=2)
 					score_instance.save()
 
 	def handle(self, *args, **options):
