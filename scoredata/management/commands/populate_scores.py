@@ -15,7 +15,7 @@ pd.options.mode.chained_assignment = None
 class Command(BaseCommand):
 
 	help = 'This reads in the current year\'s score data and loads it into the database.'
-
+	# NOTE!! This temporarily reads in data scraped from thegymternet. It will be updated once a score spreadsheet is published.
 
 	# **************************
 	# Load this data into the database
@@ -29,132 +29,29 @@ class Command(BaseCommand):
 		# **************************
 
 		# Totals
-		totals = pd.read_csv("https://docs.google.com/spreadsheets/d/1HI0tOSgjIS8rFjbTwCTlhG1LxP6sttzDMN3-4u0B0u4/export?gid=0&format=csv")
-		totals.head()
-		totals.columns = ["gymnast", "country", "meet_name", "vt1", "ub", "bb", "fx", "aa", "vt_avg"]
-
-		# D scores
-		dscore = pd.read_csv("https://docs.google.com/spreadsheets/d/1HI0tOSgjIS8rFjbTwCTlhG1LxP6sttzDMN3-4u0B0u4/export?gid=1212101599&format=csv")
-		dscore.head()
-		#dscore.drop(dscore.columns[len(dscore.columns)-1], axis=1, inplace=True)
-		dscore.columns = ["gymnast", "country", "meet_name", "vt1_d", "ub_d", "bb_d", "fx_d", "vt_total_d"]
-
+		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1c84AQPAFFyR_GY0WYmRwlzUhkpgIlNWBuHfKwLgBJlI/export?gid=0&format=csv")
+		scores.head()
+		scores.columns = ["gymnast", "country", "meet_name", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2019"]
 
 		# **************************
 		# Clean the scores data
 		# **************************
 
-		# Get Vault 2 scores from Vault 1 and Vault Average
-		totals["vt2"] = totals.vt_avg * 2 - totals.vt1
-
-		# Get Vault 2 d score from Vault 1 d score and total
-		dscore["vt2_d"] = dscore.vt_total_d - dscore.vt1_d
-
-		# Merge totals and d scores
-		scores = pd.merge(totals, dscore, how="outer", on=["gymnast", "meet_name"], indicator=True)
-		scores._merge.value_counts()
-		# Check cases that didn't merge - where we have d scores but no totals
-		scores.loc[scores._merge == "right_only", ["gymnast", "meet_name", "_merge"]]
-		scores.loc[scores._merge == "right_only", ].meet_name.value_counts()
-		# Delete these cases
-		scores = scores.loc[scores._merge != "right_only", scores.columns[:-1]]
-		# Drop country names from the D score sheet
-		scores["country_x"] = np.where(scores.country_x=="", scores.country_y, scores.country_x)
-		scores.drop(["country_y"], axis=1)
-		scores=scores.rename(columns = {'country_x':'country'})
-		# Drop vault averages and totals
-		scores.drop(["vt_total_d", "vt_avg"], axis=1)
-
-		# Clean some typos
-		try:
-			scores["ub_d"] = scores.ub_d.str.replace(".4.3", "4.3")
-		except:
-			print("I guess the score typo was fixed...")
-		scores["gymnast"] = scores.gymnast.str.replace("De Jesus dos Santos", "de Jesus dos Santos")
-		scores["gymnast"] = scores.gymnast.str.replace("De Jesus Dos Santos", "de Jesus dos Santos")
-		scores["gymnast"] = scores.gymnast.str.replace("Laurie Denommee", "Laurie Dénommée")
-
 		# **************************
 		# Clean the meet type
 		# **************************
-		scores["meet_day"] = ""
-		day_types = ["QF", "TF", "AA", "EF"]
-		for day in day_types:
-			scores["meet_day"] = np.where(scores.meet_name.str.contains(day), day, scores.meet_day)
-		scores.meet_day.value_counts()
-		# Clean meet names to remove the type
-		for day in day_types:
-			scores["meet_name"] = scores.meet_name.str.replace(day, "")
 
 		# **************************
 		# Mark juniors
 		# **************************
-		scores["junior2018"] = False
-		scores["junior2018"] = np.where(scores.gymnast.str.contains("\*"), True, scores.junior2018)
-		scores["gymnast"] = scores.gymnast.str.replace("\*", "")
 
 		# **************************
 		# Get meet start and end dates
 		# **************************
 
-		# Download the HTML from TheGymternet's list of meets
-		response = get("https://thegymter.net/2018-gymnastics-calendar/")
-		soup = BeautifulSoup(response.text, 'html.parser')
-		meets = soup.find("table").findAll("tr")
-
-		# Set up arrays to store the meet data
-		start_date=[]
-		end_date=[]
-		meet_name=[]
-		meet_loc=[]
-
-		# Definte a regular expression to get alphabetic characters from a string - we will use this to spearate months from days
-		regex = re.compile('[^a-zA-Z]')
-
-		# Loop through the meets (skipping the first row which has headings)
-		for meet in meets:
-			
-			# Clean start and end date 
-			date = meet.findAll("td")[0].text
-			date = date.split("-")
-			start_date.append(date[0] + " 2018")
-			# Cases where the meet is only one day
-			if len(date) == 1:
-				end_date.append(date[0] + " 2018")
-			# Cases where the meet is many days, but the dates are in the same month
-			elif regex.sub('', date[1]) == "":
-				month = regex.sub('', date[0])
-				end_date.append(month + " " + date[1] + " 2018")
-			# Cases where the meet is many days, but they dates are in different months
-			else:
-				end_date.append(date[1] + " 2018")
-				
-			# Pull meet name
-			meet_name.append(meet.findAll("td")[1].text)
-			
-			# Pull meet location
-			meet_loc.append(meet.findAll("td")[2].text)
-				
-		# Combine results in data frame
-		meets = pd.DataFrame({
-				'meet_name': meet_name,
-				'start_date': start_date, 
-				'end_date': end_date,
-				'meet_loc': meet_loc})
-
-		# Drop MAG meets
-		meets = meets.loc[~meets.meet_name.str.contains("MAG"), :]
-
-		# Merge in the meets
-		scores["meet_name"] = scores.meet_name.str.strip()
-		meets["meet_name"] = meets.meet_name.str.strip()
-		scores = pd.merge(scores, meets, how="outer", on=["meet_name"], indicator=True)
-		scores._merge.value_counts()
-		# Check cases that didn't merge - not that many. Fine for now.
-		scores = scores.loc[scores._merge != "right_only", scores.columns[:-1]]
-
 		# Add the year to the meet name (because some meets occur every year)
-		scores['meet_name'] = scores['meet_name'].astype(str) + " (2018)"
+		scores['meet_name'] = scores['meet_name'].astype(str) + " (2019)"
+
 		# **************************
 		# Load countries in
 		# **************************
@@ -243,62 +140,5 @@ class Command(BaseCommand):
 						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2018), score=row.vt2, d_score=row.vt2_d, score_num=2)
 					score_instance.save()
 
-		# **************************
-		# Add dates for some meets without dates
-		# **************************
-		meet = Meet.objects.get(name = "U.S. Verification (April) (2018)")
-		meet.start_date = datetime.date(2018, 4, 8)
-		meet.end_date = datetime.date(2018, 4, 8)		
-		meet.save()
-		meet = Meet.objects.get(name = "Top 12 Final (2018)")
-		meet.start_date = datetime.date(2018, 3, 17)
-		meet.end_date = datetime.date(2018, 3, 17)
-		meet.save()
-		meet = Meet.objects.get(name = "Brestyan's National Qualifier (2018)")
-		meet.start_date = datetime.date(2018, 6, 23)
-		meet.end_date = datetime.date(2018, 6, 24)
-		meet.save()
-		meet = Meet.objects.get(name = "Desert Lights Qualifier (2018)")
-		meet.start_date = datetime.date(2018, 1, 27)
-		meet.end_date = datetime.date(2018, 1, 28)
-		meet.save()
-		meet = Meet.objects.get(name = "Orlando Qualifier (2018)")
-		meet.start_date = datetime.date(2018, 2, 9)
-		meet.end_date = datetime.date(2018, 2, 11)
-		meet.save()
-		meet = Meet.objects.get(name = "President's Cup (2018)")
-		meet.start_date = datetime.date(2018, 2, 12)
-		meet.end_date = datetime.date(2018, 2, 16)
-		meet.save()
-		meet = Meet.objects.get(name = "Klaverblad Championships (2018)")
-		meet.start_date = datetime.date(2018, 6, 9)
-		meet.end_date = datetime.date(2018, 6, 10)
-		meet.save()
-		meet = Meet.objects.get(name = "Buckeye Qualifier (2018)")
-		meet.start_date = datetime.date(2018, 2, 1)
-		meet.end_date = datetime.date(2018, 2, 2)
-		meet.save()
-		meet = Meet.objects.get(name = "Swiss Duel (2018)")
-		meet.start_date = datetime.date(2018, 9, 23)
-		meet.end_date = datetime.date(2018, 9, 23)
-		meet.save()
-		meet = Meet.objects.get(name = "German Worlds Trial (2018)")
-		meet.start_date = datetime.date(2018, 9, 15)
-		meet.end_date = datetime.date(2018, 9, 15)
-		meet.save()
-
-
-
 	def handle(self, *args, **options):
 		self._create_db()
-
-
-
-# Load gymnasts
-#gymnast_df = scores[["gymnast", "country"]].drop_duplicates()
-#for row in gymnast_df.itertuples(index=False):
-#	if Gymnast.objects.filter(name=row.gymnast).exists() == False:
-#		gymnast_instance = Gymnast.objects.create()
-#		gymnast_instance.name = row.gymnast
-#		print(row.country)
-#		gymnast_instance.country = Country.objects.get(name=row.country)
