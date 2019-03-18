@@ -44,6 +44,7 @@ class Command(BaseCommand):
 		# **************************
 		# Mark juniors
 		# **************************
+		scores["junior2019"] = (scores["junior2019"] == "TRUE")
 
 		# **************************
 		# Get meet start and end dates
