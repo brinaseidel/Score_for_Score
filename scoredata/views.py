@@ -448,7 +448,7 @@ def team_tester(request):
 		total_row = ["Team Total", 0, 0, 0, 0]
 		for row in table_data:
 			for i in range(1, 5):
-				if row[i][1] == "counts":
+				if row[i][1] == "counts" and (not isinstance(row[i][0], str)):
 					total_row[i] = total_row[i] + row[i][0]
 		table_data.append(total_row)
 		team_total = sum(total_row[1:5])

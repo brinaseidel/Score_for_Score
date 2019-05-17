@@ -45,7 +45,6 @@ class Command(BaseCommand):
 		# Mark juniors
 		# **************************
 		scores["junior2019"] = (scores["junior2019"] == True)
-		print(scores["junior2019"].value_counts())
 
 		# **************************
 		# Get meet start and end dates
