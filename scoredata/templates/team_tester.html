@@ -58,7 +58,7 @@
 				<!--- If the form has been submitted, display the gymnasts to make subbing in and out easy -->
 				{% if gymnast_list %}
 					{% for gymnast in gymnast_list %}
-						<input type="text" id="gymnast_search{{ forloop.counter}}" name="gymnast_search{{ forloop.counter}}" size="60" class="search" style="margin-left:30px" value="{{ gymnast }}">
+						<input type="text" id="gymnast_search{{ forloop.counter}}" name="gymnast_search{{ forloop.counter}}" class="search" style="margin-left:30px; width:75%;" value="{{ gymnast }}">
 						<button type="button" id = "gymnast_search{{ forloop.counter}}_submit" class="submit">+</button>
 						<br/>
 					{% endfor %}

@@ -7,71 +7,19 @@ body {
 }
 
 html {
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 
-/* Header */
-.header {
-	position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; 
-    background-color: #F7EFE2;
-    margin: auto;
-    text-align: center;
-    z-index: 15
-}
-.header a:link {
-    color: #00293C;
-}
-.header a:visited {
-    color: #00293C;
-}
-.header a:hover {
-    color: #00293C;
-    text-decoration: none;
-}
-.header a:active {
-    color: #00293C;
-}
 
-/* The navigation bar */
-.navbar {
-    overflow: hidden;
-    background-color: #F7EFE2;
-    width: 50%;
-    margin: auto;
-    border-bottom: 2px solid #00293C;
-
-}
-/* Links inside the navbar */
-.header .navbar a {
-    float: left;
-    display: block;
-    color: #00293C;
-    text-align: center;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-
-/* Change background on mouse-over */
-.header .navbar a:hover {
-    background: #00293C;
-    color: #F7EFE2;
-    text-decoration: none;
-}
 
 /* Main content */
-.main {
-    margin-top: 180px; /* Add a top margin to avoid content overlay */
-    padding: 50px 80px 75px 80px
-}
 
 .main a:link {
-	color: #82141c;
+    color: #82141c;
     text-decoration: none;
 }
 .main a:visited {
-	color: #82141c;
+    color: #82141c;
     text-decoration: none;
 }
 .main a:hover {
@@ -79,26 +27,26 @@ html {
     text-decoration: underline;
 }
 .main a:active {
-	color: #82141c;
+    color: #82141c;
     text-decoration: none;;
 }
 
 /* Footer navigation bar for paginated lists */
 .pagination > li > a {
-	border: 0px;
-	background-color: #F7EFE2;
+    border: 0px;
+    background-color: #F7EFE2;
 }
 .page-item.disabled .page-link {
-	color: #00293C;
-	border: 0px;
-	background-color: #F7EFE2;
+    color: #00293C;
+    border: 0px;
+    background-color: #F7EFE2;
 }
 .pagination > li > a:focus,
 .pagination > li > a:hover,
 .pagination > li > span:focus,
 .pagination > li > span:hover {
-	border: 0px;
-	color: #F7EFE2;
+    border: 0px;
+    color: #F7EFE2;
     background-color: #82141c;
     text-decoration: none;
 
@@ -106,34 +54,34 @@ html {
 
 /* Tables for displaying scores */
 table.scoretable {
-	margin-left:auto; 
-	margin-right:auto;
+    margin-left:auto; 
+    margin-right:auto;
 }
 th {
-	background-color:#00293C;
-	font-weight: bold;
-	color: #F7EFE2;
+    background-color:#00293C;
+    font-weight: bold;
+    color: #F7EFE2;
 }
 th, td {
     padding: 7px;
     text-align: left;
 }
 table.scoretable td.gymnast {
-	width: 240px;
+    width: 240px;
 }
 table.scoretable td.score, td.counts, td.up, td.not_used {
-	width: 70px;
+    width: 70px;
 }
 table.scoretable td.country {
-	width: 100px;
+    width: 100px;
 }
 table.scoretable tr:not(.table_header .no_hover):hover {
-	background-color: #00293C;
-	color: #F7EFE2;
+    background-color: #00293C;
+    color: #F7EFE2;
 }
 table.scoretable tr:not(.table_header .no_hover):hover a {
-	background-color: #00293C;
-	color: #F7EFE2;
+    background-color: #00293C;
+    color: #F7EFE2;
 }
 td.counts {
     background-color: #82141c;
@@ -195,38 +143,38 @@ input.num_input{
 }
 
 input[type=text]:focus {
-	outline: none;
+    outline: none;
 }
 .form_style .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
     color: #00293C;
     font-family : 'Roboto Condensed', Helvetica, sans-serif;
-	background-color: #F7EFE2;
+    background-color: #F7EFE2;
 
 }
 .form_style  .ui-menu .ui-menu-item {
-	background-color: #F7EFE2;
-	color: #00293C;
-	font-family: inherit;
-	border: none;
-	outline: none;
-	box-shadow: none;
+    background-color: #F7EFE2;
+    color: #00293C;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 .ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content {
-	border: 0px; 
-	outline: none;
-	box-shadow: none;
-	font: inherit;
-	color: #00293C;
-	background-color: #F7EFE2;
+    border: 0px; 
+    outline: none;
+    box-shadow: none;
+    font: inherit;
+    color: #00293C;
+    background-color: #F7EFE2;
 }
 .ui-menu-item .ui-menu-item-wrapper.ui-state-active{
-	background-color: #00293C;
-	color: #F7EFE2;
-	font-family: inherit;
-	border: none;
-	outline: none;
-	box-shadow: none;
-	border-collapse:collapse;
+    background-color: #00293C;
+    color: #F7EFE2;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-collapse:collapse;
 }
 select, textarea {
     background-color: #F7EFE2;
@@ -249,3 +197,203 @@ select, textarea :focus {
 .blog_body {
     line-height: 1.2;
 }
+
+
+/* Things that are different for mobile and non-mobile */
+
+@media screen and (max-width: 750px) {
+    /* comes into effect for screens less than or equal to 750 pixels, which is most mobile devices */
+
+    .desktop-only {
+        display: none;
+    }
+
+    /* Header */
+    .header {
+        position: fixed; /* Set the navbar to fixed position */
+        top: 0; /* Position the navbar at the top of the page */
+        width: 100%; 
+        background-color: #F7EFE2;
+        margin: auto;
+        text-align: center;
+        z-index: 15
+    }
+    .header a:link {
+        color: #00293C;
+    }
+    .header a:visited {
+        color: #00293C;
+    }
+    .header a:hover {
+        color: #00293C;
+        text-decoration: none;
+    }
+    .header a:active {
+        color: #00293C;
+    }
+
+    /*Turn off desktop navigation bar */
+
+    .navbar {
+        display: none;
+    }
+
+    /*Hamburger menu*/
+    .hamburger-toggle {
+        display: inline-block;
+        padding: .75em 15px;
+        color: #00293C;
+    }
+
+    .hamburger-toggle:hover,
+    .hamburger-toggle:focus {
+        color: #00293C;
+    }
+
+    .hamburger-menu {
+        position: absolute;
+        display: none;
+        left: -200px;
+        top: 0;
+        height: 100%;
+        width: 65%;
+        max-width: 250px;
+        min-width: 150px;
+        overflow-y: scroll;
+        overflow-x: visible;
+        transition: left 0.3s ease,;
+        z-index: 999;
+        background: #00293C;
+
+
+    }
+
+    .hamburger-menu .hamburger-menu-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+
+
+    .hamburger-menu:target,
+    .hamburger-menu[aria-expanded="true"] {
+        display: block;
+        left: 0;
+        outline: none;
+    }
+
+    .hamburger-menu:target .hamburger-menu-close,
+    .hamburger-menu[aria-expanded="true"] .hamburger-menu-close {
+        z-index: 1001;
+    }
+
+    .hamburger-menu:target a,
+    .hamburger-menu[aria-expanded="true"] a {
+        position: relative;
+        z-index: 1000;
+        color: #F7EFE2;
+
+    }
+
+    /* 
+     We could us `.main-menu:target:after`, but
+     it wouldn't be clickable.
+    */
+    .hamburger-menu:target + .backdrop,
+    .hamburger-menu[aria-expanded="true"] + .backdrop{
+        position: absolute;
+        display: block;  
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 998;
+        background: #000;
+        background: rgba(0,0,0,.85);
+        cursor: default;
+    }
+
+    @supports (position: fixed) {
+        .hamburger-menu,
+        .hamburger-menu:target + .backdrop,
+        .hamburger-menu[aria-expanded="true"] + .backdrop{
+            position: fixed;
+        }
+    }
+
+    /* Main content */
+    .main {
+        margin-top: 180px; /* Add a top margin to avoid content overlay */
+        padding: 50px 20px 75px 20px
+    }
+
+}
+
+
+@media screen and (min-width: 751px) {
+    /* Header */
+    .header {
+        position: fixed; /* Set the header to fixed position */
+        top: 0; /* Position the header at the top of the page */
+        width: 100%; 
+        background-color: #F7EFE2;
+        margin: auto;
+        text-align: center;
+        z-index: 15
+    }
+    .header a:link {
+        color: #00293C;
+    }
+    .header a:visited {
+        color: #00293C;
+    }
+    .header a:hover {
+        color: #00293C;
+        text-decoration: none;
+    }
+    .header a:active {
+        color: #00293C;
+    }
+
+    /*Turn off hamburger navigation for mobile */
+
+    .hamburger-toggle, .hamburger-menu, .hamburger-toggle-off {
+        display: none;
+    }
+
+    /* The navigation bar */
+    .navbar {
+        overflow: hidden;
+        background-color: #F7EFE2;
+        width: 45%;
+        min-width: 550px;
+        margin: auto;
+        border-bottom: 2px solid #00293C;
+
+    }
+    /* Links inside the navbar */
+    .header .navbar a {
+        float: left;
+        display: block;
+        color: #00293C;
+        text-align: center;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    /* Change background on mouse-over */
+    .header .navbar a:hover {
+        background: #00293C;
+        color: #F7EFE2;
+        text-decoration: none;
+    }
+
+
+    /* Main content */
+    .main {
+        margin-top: 150px; /* Add a top margin to avoid content overlay */
+        padding: 50px 80px 75px 80px
+    }
+}
+

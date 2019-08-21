@@ -18,19 +18,19 @@
 
   <!--- Script for autocomplete in the form -->
   <script type="text/javascript">
-	$(document).ready(function(){
-	  var location_input=$('input[id="autocomplete-search"]');
-	    location_input.autocomplete({
-	      source: "get_search_names",
-	      minLength: 2
-	    });
-	  } );
+  $(document).ready(function(){
+    var location_input=$('input[id="autocomplete-search"]');
+      location_input.autocomplete({
+        source: "get_search_names",
+        minLength: 2
+      });
+    } );
 
-	  // Keeps same width as box
-	  jQuery.ui.autocomplete.prototype._resizeMenu = function () {
-	      var ul = this.menu.element;
-	      ul.outerWidth(this.element.outerWidth());
-	  }
+    // Keeps same width as box
+    jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+        var ul = this.menu.element;
+        ul.outerWidth(this.element.outerWidth());
+    }
   </script>
 
   <!--- **********************************
@@ -44,10 +44,10 @@
   <!--- Search bar form -->
   <div class="form_style">
   <div class="ui-widget" style="text-align:center">
-	<form method="get">
-		<input type="text" id="autocomplete-search" name="to_search" size="60" class="search" style="margin-left:30px">
-		<input type="submit" class="submit" value="&#9658">
-	</form>
+  <form method="get">
+    <input type="text" id="autocomplete-search" name="to_search" class="search" style="margin-left:30px; width:75%;">
+    <input type="submit" class="submit" value="&#9658">
+  </form>
   </div>
   </div>
 
