@@ -293,7 +293,7 @@ select, textarea :focus {
         position: relative;
         z-index: 1000;
         color: #F7EFE2;
-
+        font-size: 120%;
     }
 
     /* 
