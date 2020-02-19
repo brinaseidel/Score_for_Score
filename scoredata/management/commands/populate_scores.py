@@ -29,9 +29,9 @@ class Command(BaseCommand):
 		# **************************
 
 		# Totals
-		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1213cgQJaKzzpwoO46m5ihT7F6poyhAzimpsu7VEgTWA/export?gid=1358682386&format=csv")
+		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1mAZlBhTIPOSZND4Z90ZmHJgobSqU8jv5dGpl54DHWSw/export?gid=0&format=csv")
 		scores.head()
-		scores.columns = ["gymnast", "country", "meet_name", "meet_day", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2019"]
+		scores.columns = ["gymnast", "country", "meet_name", "meet_day", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2020"]
 
 		# **************************
 		# Clean the scores data
@@ -44,14 +44,14 @@ class Command(BaseCommand):
 		# **************************
 		# Mark juniors
 		# **************************
-		scores["junior2019"] = (scores["junior2019"] == True)
+		scores["junior2020"] = (scores["junior2020"] == True)
 
 		# **************************
 		# Get meet start and end dates
 		# **************************
 
 		# Add the year to the meet name (because some meets occur every year)
-		scores['meet_name'] = scores['meet_name'].astype(str) + " (2019)"
+		scores['meet_name'] = scores['meet_name'].astype(str) + " (2020)"
 
 		# **************************
 		# Load countries in
@@ -114,31 +114,31 @@ class Command(BaseCommand):
 				if pd.isnull(row.vt1)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2019), score=row.vt1, d_score=row.vt1_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2020), score=row.vt1, d_score=row.vt1_d, score_num=1)
 					score_instance.save()
 				# Bars
 				if pd.isnull(row.ub)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="UB", junior=row.junior2019), score=row.ub, d_score=row.ub_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="UB", junior=row.junior2020), score=row.ub, d_score=row.ub_d, score_num=1)
 					score_instance.save()
 				# Balance beam
 				if pd.isnull(row.bb)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="BB", junior=row.junior2019), score=row.bb, d_score=row.bb_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="BB", junior=row.junior2020), score=row.bb, d_score=row.bb_d, score_num=1)
 					score_instance.save()
 				# Floor
 				if pd.isnull(row.fx)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="FX", junior=row.junior2019), score=row.fx, d_score=row.fx_d, score_num=1)
+						meet_day = row.meet_day, event=Event.objects.get(name="FX", junior=row.junior2020), score=row.fx, d_score=row.fx_d, score_num=1)
 					score_instance.save()
 				# Vault 2
 				if pd.isnull(row.vt2)==False:
 					score_instance = Score(gymnast = Gymnast.objects.get(name=row.gymnast), 
 						meet = Meet.objects.get(name=row.meet_name),
-						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2019), score=row.vt2, d_score=row.vt2_d, score_num=2)
+						meet_day = row.meet_day, event=Event.objects.get(name="VT", junior=row.junior2020), score=row.vt2, d_score=row.vt2_d, score_num=2)
 					score_instance.save()
 
 	def handle(self, *args, **options):
