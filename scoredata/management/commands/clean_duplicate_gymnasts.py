@@ -32,6 +32,7 @@ class Command(BaseCommand):
 			try:
 				# Find the duplicate gymnast object
 				duplicate_gymnast = Gymnast.objects.get(name=duplicate_name)
+				print("Combining {} and {}".format(gymnast.name, duplicate_name))
 				# Add all scores from the 'iia' copy to the 'ia' copy
 				scores = gymnast.score_set.all()
 				scores.update(gymnast=gymnast)
@@ -42,4 +43,4 @@ class Command(BaseCommand):
 				pass
 
 	def handle(self, *args, **options):
-		self._create_db()
+		self._clean_dups()
