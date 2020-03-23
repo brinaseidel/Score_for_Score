@@ -35,7 +35,7 @@ class Command(BaseCommand):
 				print("Combining {} and {}".format(gymnast.name, duplicate_name))
 				# Add all scores from the 'iia' copy to the 'ia' copy
 				scores = gymnast.score_set.all()
-				scores.update(gymnast=gymnast)
+				scores.update(gymnast=duplicate_gymnast)
 				# Remove duplicate
 				gymnast.delete()
 
