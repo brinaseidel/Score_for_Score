@@ -30,9 +30,9 @@ class Command(BaseCommand):
 
 		# Totals
 		#scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1mAZlBhTIPOSZND4Z90ZmHJgobSqU8jv5dGpl54DHWSw/export?gid=0&format=csv") # used to need gid=0, now it causes 400 error
-		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1mAZlBhTIPOSZND4Z90ZmHJgobSqU8jv5dGpl54DHWSw/export?format=csv")
+		scores = pd.read_csv("https://docs.google.com/spreadsheets/d/1GDR4Bqtl5t8Ran-6M7_r8Ht5SD-8F9V5F3Fhp10xkWU/export?format=csv")
 		scores.head()
-		scores.columns = ["gymnast", "country", "meet_name", "meet_day", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2020"]
+		scores.columns = ["gymnast", "country", "meet_name", "meet_day", "vt1", "vt2", "ub", "bb", "fx", "vt1_d", "vt2_d", "ub_d", "bb_d", "fx_d", "meet_loc", "start_date", "end_date", "junior2021"]
 
 		# **************************
 		# Clean the scores data
@@ -45,7 +45,7 @@ class Command(BaseCommand):
 		# **************************
 		# Mark juniors
 		# **************************
-		scores["junior2020"] = (scores["junior2020"] == True)
+		scores["junior2021"] = (scores["junior2021"] == True)
 
 		# **************************
 		# Get meet start and end dates
