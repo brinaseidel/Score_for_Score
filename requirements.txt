@@ -6,7 +6,7 @@ countrycode==0.2
 countrynames==1.6.0
 cycler==0.10.0
 #cymem==1.31.2
-Cython==0.26.1
+Cython==0.29.23
 dask==0.15.3
 distributed==1.19.1
 dj-database-url==0.5.0
@@ -15,6 +15,7 @@ django-countries==5.3.1
 django-csvimport==2.11
 django-extensions==2.1.0
 django-import-export==1.0.1
+django-on-heroku
 docutils==0.14
 #googlemaps==2.5.1
 gunicorn==19.9.0
@@ -51,7 +52,7 @@ requests==2.20.0
 simplegeneric==0.8.1
 sortedcollections==0.5.3
 sortedcontainers==1.5.7
-spacy==2.0.5
+#spacy==2.0.5
 SQLAlchemy==1.1.13
 #tables==3.4.2
 tablib==0.12.1
