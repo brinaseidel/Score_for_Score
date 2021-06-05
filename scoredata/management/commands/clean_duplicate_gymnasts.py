@@ -64,7 +64,26 @@ class Command(BaseCommand):
 
 			except Gymnast.DoesNotExist:
 				pass
-				
+
+                try:
+                        gymnast = Gymnast.objects.get(name="Jade Carey ")
+                        duplicate_gymnast = Gymnast.objects.get(name="Jade Carey")
+                        scores = gymnast.score_set.all()
+                        scores.update(gymnast=duplicate_gymnast)
+                        gymnast.delete()
+                except Gymnast.DoesNotExist:
+                        pass
+
+                try:
+                        gymnast = Gymnast.objects.get(name="Morgan Jewel")
+                        duplicate_gymnast = Gymnast.objects.get(name="Morgan Jewell")
+                        scores = gymnast.score_set.all()
+                        scores.update(gymnast=duplicate_gymnast)
+                        gymnast.delete()
+                except Gymnast.DoesNotExist:
+                        pass
+
+                
 
 	def handle(self, *args, **options):
 		self._clean_dups()
