@@ -5,7 +5,7 @@ contextlib2==0.5.5
 countrycode==0.2
 countrynames==1.6.0
 cycler==0.10.0
-cymem==1.31.2
+#cymem==1.31.2
 Cython==0.26.1
 dask==0.15.3
 distributed==1.19.1
@@ -16,7 +16,7 @@ django-csvimport==2.11
 django-extensions==2.1.0
 django-import-export==1.0.1
 docutils==0.14
-googlemaps==2.5.1
+#googlemaps==2.5.1
 gunicorn==19.9.0
 html5lib==0.9999999
 imagesize==0.7.1
