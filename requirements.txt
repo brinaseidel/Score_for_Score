@@ -19,7 +19,7 @@ django-on-heroku
 docutils==0.14
 #googlemaps==2.5.1
 gunicorn==19.9.0
-html5lib==0.9999999
+html5lib==0.999999999
 imagesize==0.7.1
 jsonschema==2.6.0
 msgpack-numpy==0.4.1
